@@ -1,0 +1,94 @@
+<h2>Platform Architecture — Overview</h2>
+<p class="subtitle">Two repos, one platform. Content flows from git through the sync pipeline into the API, then to consumers.</p>
+
+<div class="mockup" style="margin-bottom:24px">
+  <div class="mockup-header">System Diagram</div>
+  <div class="mockup-body" style="padding:24px;font-family:monospace;font-size:13px;line-height:2.2">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+
+      <!-- Left: Content Repo -->
+      <div>
+        <div style="text-align:center;padding:8px 16px;background:#1e40af22;border:2px solid #3b82f6;border-radius:8px;margin-bottom:12px">
+          <strong style="color:#3b82f6">learning-platform</strong><br>
+          <span style="font-size:11px;color:var(--muted)">content repo (this repo)</span>
+        </div>
+        <div style="padding:10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+          <div>📁 domains/</div>
+          <div style="margin-left:16px">📁 ds-ml/ → modules</div>
+          <div style="margin-left:16px">📁 economics/ → modules</div>
+          <div style="margin-left:16px">📁 trading/ → modules</div>
+          <div style="margin-left:16px">📁 software-eng/ → modules</div>
+          <div style="margin-left:16px">📁 finance/ → modules</div>
+          <div>📄 domain-registry.yaml</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">each module: README.md + concepts.md<br>+ notebooks/ + cheatsheet.md + sota.md</div>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--muted)">git push → triggers CI</div>
+      </div>
+
+      <!-- Right: Platform Repo -->
+      <div>
+        <div style="text-align:center;padding:8px 16px;background:#16a34a22;border:2px solid #22c55e;border-radius:8px;margin-bottom:12px">
+          <strong style="color:#22c55e">learning-platform-api</strong><br>
+          <span style="font-size:11px;color:var(--muted)">new repo (to be created)</span>
+        </div>
+        <div style="padding:10px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+          <div>📁 api/  <span style="color:var(--muted)">(FastAPI)</span></div>
+          <div>📁 sync/ <span style="color:var(--muted)">(git → DB ingestion)</span></div>
+          <div>📁 ai/   <span style="color:var(--muted)">(RAG, quiz gen, SOTA)</span></div>
+          <div>📁 db/   <span style="color:var(--muted)">(migrations, models)</span></div>
+          <div>📄 docker-compose.yml</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data flow row -->
+    <div style="margin-top:24px;padding:16px;border:1px dashed var(--border);border-radius:8px">
+      <div class="label" style="margin-bottom:10px">Data Flow</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px">
+        <div style="padding:6px 12px;background:#1e40af22;border:1px solid #3b82f6;border-radius:4px">git push</div>
+        <span>→</span>
+        <div style="padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:4px">CI webhook</div>
+        <span>→</span>
+        <div style="padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:4px">sync worker</div>
+        <span>→</span>
+        <div style="padding:6px 12px;background:#16a34a22;border:1px solid #22c55e;border-radius:4px">PostgreSQL</div>
+        <span>→</span>
+        <div style="padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:4px">FastAPI</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin-top:8px">
+        <div style="padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:4px">FastAPI</div>
+        <span>→</span>
+        <div style="padding:6px 12px;background:#7c3aed22;border:1px solid #8b5cf6;border-radius:4px">Flask+React webapp</div>
+        <span>&amp;</span>
+        <div style="padding:6px 12px;background:#7c3aed22;border:1px solid #8b5cf6;border-radius:4px">agentic-ai backend</div>
+      </div>
+    </div>
+
+    <!-- AI layer -->
+    <div style="margin-top:16px;padding:16px;border:1px dashed #f59e0b44;border-radius:8px">
+      <div class="label" style="margin-bottom:10px;color:#f59e0b">AI Feature Layer (in learning-platform-api)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+        <div style="padding:8px;border:1px solid #f59e0b44;border-radius:4px">
+          <strong>Concept Q&amp;A</strong><br>
+          <span style="color:var(--muted)">RAG over chunks + embeddings<br>via agentic-ai model router</span>
+        </div>
+        <div style="padding:8px;border:1px solid #f59e0b44;border-radius:4px">
+          <strong>Auto Quizzes</strong><br>
+          <span style="color:var(--muted)">LLM generates from concepts.md<br>stored + served via API</span>
+        </div>
+        <div style="padding:8px;border:1px solid #f59e0b44;border-radius:4px">
+          <strong>Progress Tracking</strong><br>
+          <span style="color:var(--muted)">User progress table<br>enables all other AI features</span>
+        </div>
+        <div style="padding:8px;border:1px solid #f59e0b44;border-radius:4px">
+          <strong>SOTA Alerts</strong><br>
+          <span style="color:var(--muted)">Periodic worker checks sota.md<br>vs arxiv/news, flags stale content</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle">Does this overall architecture look right? Confirm in terminal before we go deeper into schema.</p>

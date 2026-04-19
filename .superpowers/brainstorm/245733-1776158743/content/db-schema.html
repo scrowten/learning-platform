@@ -1,0 +1,118 @@
+<h2>Database Schema</h2>
+<p class="subtitle">PostgreSQL. 7 tables — each maps directly to a feature. Sync worker populates the top 4; runtime populates the bottom 3.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+
+  <!-- domains -->
+  <div style="padding:14px;border:1px solid #3b82f6;border-radius:8px;background:#1e40af0a">
+    <div class="label" style="color:#3b82f6;margin-bottom:8px">domains — from domain-registry.yaml</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">id</span> varchar PK<br>
+      name varchar<br>
+      path varchar<br>
+      color varchar<br>
+      icon varchar<br>
+      tags text[]<br>
+      created_at timestamptz
+    </div>
+  </div>
+
+  <!-- modules -->
+  <div style="padding:14px;border:1px solid #3b82f6;border-radius:8px;background:#1e40af0a">
+    <div class="label" style="color:#3b82f6;margin-bottom:8px">modules — from README.md frontmatter</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">id</span> varchar PK <span style="color:var(--muted)">(slug)</span><br>
+      <span style="color:#10b981">domain_id</span> → domains.id<br>
+      title varchar<br>
+      difficulty varchar<br>
+      tags text[]<br>
+      estimated_hours int<br>
+      git_path varchar<br>
+      last_reviewed date<br>
+      sota_topics text[]<br>
+      synced_at timestamptz
+    </div>
+  </div>
+
+  <!-- prerequisites -->
+  <div style="padding:14px;border:1px solid #3b82f6;border-radius:8px;background:#1e40af0a">
+    <div class="label" style="color:#3b82f6;margin-bottom:8px">module_prerequisites — prerequisite graph</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">module_id</span> → modules.id<br>
+      <span style="color:#f59e0b">prereq_id</span> → modules.id<br>
+      <span style="color:var(--muted)">PK: (module_id, prereq_id)</span>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">Enables topological sort for learning paths and skip-graph queries.</p>
+  </div>
+
+  <!-- content chunks -->
+  <div style="padding:14px;border:1px solid #f59e0b;border-radius:8px;background:#f59e0b0a">
+    <div class="label" style="color:#f59e0b;margin-bottom:8px">content_chunks — for Concept Q&amp;A (RAG)</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">id</span> uuid PK<br>
+      <span style="color:#10b981">module_id</span> → modules.id<br>
+      source_file varchar <span style="color:var(--muted)">(concepts.md etc)</span><br>
+      chunk_index int<br>
+      content text<br>
+      embedding vector(1536) <span style="color:var(--muted)">(pgvector)</span><br>
+      synced_at timestamptz
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">pgvector extension. Sync worker chunks concepts.md → embeds via agentic-ai model router.</p>
+  </div>
+
+  <!-- quizzes -->
+  <div style="padding:14px;border:1px solid #22c55e;border-radius:8px;background:#16a34a0a">
+    <div class="label" style="color:#22c55e;margin-bottom:8px">quiz_items — Auto-Generated Quizzes</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">id</span> uuid PK<br>
+      <span style="color:#10b981">module_id</span> → modules.id<br>
+      question text<br>
+      options jsonb <span style="color:var(--muted)">(MCQ choices)</span><br>
+      correct_answer varchar<br>
+      explanation text<br>
+      difficulty varchar<br>
+      generated_at timestamptz
+    </div>
+  </div>
+
+  <!-- user progress -->
+  <div style="padding:14px;border:1px solid #22c55e;border-radius:8px;background:#16a34a0a">
+    <div class="label" style="color:#22c55e;margin-bottom:8px">user_progress — Progress Tracking</div>
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">user_id</span> varchar<br>
+      <span style="color:#f59e0b">module_id</span> → modules.id<br>
+      status varchar <span style="color:var(--muted)">(not_started/in_progress/done/skipped)</span><br>
+      started_at timestamptz<br>
+      completed_at timestamptz<br>
+      quiz_score float<br>
+      <span style="color:var(--muted)">PK: (user_id, module_id)</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- sota reviews - full width -->
+<div style="padding:14px;border:1px solid #8b5cf6;border-radius:8px;background:#7c3aed0a;margin-bottom:16px">
+  <div class="label" style="color:#8b5cf6;margin-bottom:8px">sota_reviews — SOTA Alert Tracking</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <span style="color:#f59e0b">id</span> uuid PK<br>
+      <span style="color:#10b981">module_id</span> → modules.id<br>
+      status varchar <span style="color:var(--muted)">(current/stale/flagged)</span><br>
+      flagged_topics text[]<br>
+      checked_at timestamptz<br>
+      draft_update text <span style="color:var(--muted)">(AI-drafted suggestion)</span>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin:0">Periodic worker compares sota.md topics against arxiv/news. Sets status=flagged and writes a draft update when content appears stale. Cleared when module is re-reviewed.</p>
+  </div>
+</div>
+
+<!-- color key -->
+<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px">
+  <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#3b82f6"></div>Synced from content repo</div>
+  <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#f59e0b"></div>AI / RAG layer</div>
+  <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#22c55e"></div>Runtime / user data</div>
+  <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#8b5cf6"></div>Maintenance / ops</div>
+</div>
+
+<p class="subtitle" style="margin-top:20px">Does this schema cover your needs? Anything to add or remove?</p>

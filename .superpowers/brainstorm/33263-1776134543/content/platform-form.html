@@ -1,0 +1,54 @@
+<h2>What's the primary form factor?</h2>
+<p class="subtitle">This shapes everything — file structure, navigation, tooling, integration with your other projects.</p>
+
+<div class="options">
+  <div class="option" data-choice="static-repo" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Enhanced Static Repo</h3>
+      <p>Same GitHub-native approach — folders, markdown, notebooks. Add a domain registry (YAML/JSON) as the meta-layer. No build step, no server. Navigation via README cross-links and a generated index.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Zero infrastructure</li><li>Already works</li><li>Jupyter native</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Navigation gets unwieldy at scale</li><li>No search, no cross-domain links</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="docs-site" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Rendered Docs Site</h3>
+      <p>MkDocs Material or Docusaurus — markdown stays the source of truth, but renders into a navigable web UI with search, tags, cross-links, and a dependency graph view. Deploys to GitHub Pages.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Great UX for navigation</li><li>Full-text search</li><li>Tag/difficulty filtering</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Build step required</li><li>Notebooks need nbconvert export</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="api-platform" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>API-First Platform</h3>
+      <p>Connect to the <strong>agentic-ai</strong> backend you're building. Content is data — served via API. Your Flask+React webapp queries it. Enables AI-powered features: personalized paths, adaptive quizzes, concept Q&amp;A.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>AI-native learning features</li><li>Integrates with your webapp</li><li>Dynamic personalization</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Most complex to build</li><li>Content needs structured schema</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Hybrid — Docs Site Now, API Later</h3>
+      <p>Start with MkDocs or Docusaurus as the human-facing layer. Design the content schema (frontmatter, metadata) to be API-ready. Phase 2: expose a content API consumed by agentic-ai and your webapp.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Ship something usable fast</li><li>Content schema is future-proof</li><li>Clear phased roadmap</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Schema design matters upfront</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:20px">Check <strong>http://localhost:50306</strong> and pick one.</p>

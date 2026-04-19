@@ -1,0 +1,54 @@
+<h2>Where does content live?</h2>
+<p class="subtitle">API-first means something has to be the source of truth. Three architectures — pick the one that fits how you'll author content.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="git-parsed" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Git → Parsed → API (JAMstack)</h3>
+      <p>Markdown + notebooks stay in this repo. A build/sync job parses frontmatter, extracts metadata, and loads it into a database. API serves from DB. Authoring = git commit.</p>
+      <div style="margin-top:12px;padding:10px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8">
+        <span style="color:var(--accent)">markdown files</span> → <span style="color:#f59e0b">parser/indexer</span> → <span style="color:#10b981">postgres/sqlite</span> → <span style="color:var(--accent)">FastAPI</span> → <span style="color:#8b5cf6">React/Flask webapp</span>
+      </div>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Git is source of truth (version control, PRs)</li><li>Human-readable content</li><li>Works offline, no external dependencies</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Need sync/build pipeline</li><li>Schema lives in frontmatter — discipline required</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="db-first" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Database-First</h3>
+      <p>Content authored directly into a structured DB (via admin UI or scripts). API serves live from DB. Markdown is optional export format. Tightly integrated with agentic-ai's existing PostgreSQL schema.</p>
+      <div style="margin-top:12px;padding:10px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8">
+        <span style="color:#f59e0b">admin UI / scripts</span> → <span style="color:#10b981">postgres</span> → <span style="color:var(--accent)">FastAPI</span> → <span style="color:#8b5cf6">React/Flask webapp</span>
+      </div>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Cleanest API layer</li><li>Rich relational queries (prerequisites, cross-domain links)</li><li>AI features plug in naturally</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Harder to author/edit (no plain text files)</li><li>Lose git history for content</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="git-db-hybrid" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Git as Source of Truth + DB as Index</h3>
+      <p>Markdown/notebooks in git = write path. DB = read/query path. Sync runs on push. Best of both: human-friendly authoring, machine-friendly querying. This is how Docusaurus + Algolia works, applied to an API.</p>
+      <div style="margin-top:12px;padding:10px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8">
+        <span style="color:var(--accent)">git push</span> → <span style="color:#f59e0b">CI sync job</span> → <span style="color:#10b981">postgres (index)</span> → <span style="color:var(--accent)">FastAPI</span> → <span style="color:#8b5cf6">webapp / agentic-ai</span>
+        <br><span style="color:#6b7280;font-size:11px">↑ markdown files stay readable, DB stays queryable</span>
+      </div>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Git history for content</li><li>Rich API querying</li><li>Aligns with agentic-ai pipeline</li><li>Most extensible</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Sync pipeline to maintain</li><li>Most moving parts upfront</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px">My recommendation: <strong>C</strong> — git stays human-friendly, DB enables the AI features.</p>

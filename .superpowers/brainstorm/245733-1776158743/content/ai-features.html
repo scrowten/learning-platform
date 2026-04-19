@@ -1,0 +1,62 @@
+<h2>Which AI features do you want?</h2>
+<p class="subtitle">These drive the DB schema and API surface. Be ruthless — each feature adds scope. Select what you'd actually use.</p>
+
+<div class="options" data-multiselect>
+
+  <div class="option" data-choice="concept-qa" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Concept Q&amp;A</h3>
+      <p>Ask questions about any module — "explain backpropagation like I know linear algebra" or "how does DCF differ from comparable comps?" RAG over your own content via the agentic-ai backend.</p>
+      <div class="label" style="margin-top:6px">DB needs: content chunks + embeddings</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="adaptive-path" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Adaptive Learning Paths</h3>
+      <p>User states what they know → AI generates a personalized module sequence. "I know Python and stats but not ML" → custom path skipping prerequisites automatically.</p>
+      <div class="label" style="margin-top:6px">DB needs: user profiles + progress tracking + prerequisite graph</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="quizzes" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Auto-Generated Quizzes</h3>
+      <p>LLM generates questions from concepts.md per module. Tracks what you've answered to surface weak spots. Spaced repetition built on top.</p>
+      <div class="label" style="margin-top:6px">DB needs: quiz items + answer history + spaced-rep schedule</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="cross-domain" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Cross-Domain Concept Linking</h3>
+      <p>"Gradient descent in ML" ↔ "marginal cost optimization in economics" ↔ "momentum in trading." AI surfaces conceptual connections across domains automatically.</p>
+      <div class="label" style="margin-top:6px">DB needs: concept graph with cross-domain edges</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="progress" onclick="toggleSelect(this)">
+    <div class="letter">E</div>
+    <div class="content">
+      <h3>Progress Tracking + Streaks</h3>
+      <p>Track which modules are done, in-progress, or skipped per user. Dashboard showing coverage across domains. No AI needed — pure data, but enables the features above.</p>
+      <div class="label" style="margin-top:6px">DB needs: user progress table</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="sota-alerts" onclick="toggleSelect(this)">
+    <div class="letter">F</div>
+    <div class="content">
+      <h3>SOTA / Field Update Alerts</h3>
+      <p>AI monitors arxiv / news for each domain's sota.md topics. Flags when a module's content may be outdated. Drafts update suggestions automatically.</p>
+      <div class="label" style="margin-top:6px">DB needs: content version + last-reviewed timestamps</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px">Multi-select. Pick only what you'd actually ship in v1.</p>

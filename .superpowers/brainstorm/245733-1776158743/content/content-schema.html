@@ -1,0 +1,99 @@
+<h2>Content Schema Design</h2>
+<p class="subtitle">Two files define the platform's intelligence layer: <code>domain-registry.yaml</code> and the per-module frontmatter in <code>README.md</code>. The sync worker reads these to build the DB.</p>
+
+<div class="section">
+  <h3>1 — domain-registry.yaml <span style="font-size:12px;font-weight:normal;color:var(--muted)">(repo root)</span></h3>
+  <div style="padding:14px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8;border:1px solid var(--border)">
+<pre style="margin:0;white-space:pre-wrap">domains:
+  - id: ds-ml
+    name: "Data Science & ML Engineering"
+    path: domains/ds-ml
+    color: "#3b82f6"
+    icon: "🧠"
+    tags: [quantitative, programming, math]
+
+  - id: economics
+    name: "Economics"
+    path: domains/economics
+    color: "#10b981"
+    icon: "📈"
+    tags: [theory, policy, markets]
+
+  - id: trading
+    name: "Stocks & Trading"
+    path: domains/trading
+    color: "#f59e0b"
+    icon: "📊"
+    tags: [quantitative, markets, finance]
+
+  - id: software-eng
+    name: "Software Engineering"
+    path: domains/software-eng
+    color: "#8b5cf6"
+    icon: "⚙️"
+    tags: [programming, systems, architecture]
+
+  - id: finance
+    name: "Finance & Accounting"
+    path: domains/finance
+    color: "#ef4444"
+    icon: "💰"
+    tags: [theory, markets, valuation]</pre>
+  </div>
+</div>
+
+<div class="section">
+  <h3>2 — Module README.md frontmatter <span style="font-size:12px;font-weight:normal;color:var(--muted)">(every module)</span></h3>
+  <div style="padding:14px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8;border:1px solid var(--border)">
+<pre style="margin:0;white-space:pre-wrap">---
+id: supervised-learning
+domain: ds-ml
+title: "Supervised Learning"
+difficulty: beginner-intermediate
+tags: [regression, classification, sklearn]
+prerequisites:
+  - linear-algebra
+  - probability-statistics
+estimated_hours: 8
+last_reviewed: 2026-04-01
+sota_topics:
+  - gradient boosting dominance on tabular data
+  - AutoML (H2O, AutoSklearn)
+---
+
+# Supervised Learning
+...rest of README...</pre>
+  </div>
+  <p style="margin-top:10px;font-size:13px;color:var(--muted)">Same frontmatter works for any domain. An economics module would be <code>domain: economics</code>, a trading module <code>domain: trading</code>. The sync worker is domain-blind — it reads frontmatter, not folder names.</p>
+</div>
+
+<div class="section">
+  <h3>3 — Module directory structure <span style="font-size:12px;font-weight:normal;color:var(--muted)">(universal template)</span></h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="padding:14px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8;border:1px solid var(--border)">
+      <div class="label" style="margin-bottom:6px">DS/ML module (existing)</div>
+<pre style="margin:0;white-space:pre-wrap">supervised/
+├── README.md        ← frontmatter here
+├── concepts.md      ← theory, math, proofs
+├── cheatsheet.md    ← quick reference
+├── sota.md          ← current field state
+└── notebooks/
+    ├── 01_from_scratch.ipynb
+    └── 02_real_dataset.ipynb</pre>
+    </div>
+    <div style="padding:14px;background:var(--surface);border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8;border:1px solid var(--border)">
+      <div class="label" style="margin-bottom:6px">Economics module (new)</div>
+<pre style="margin:0;white-space:pre-wrap">supply-demand/
+├── README.md        ← same frontmatter
+├── concepts.md      ← theory, models
+├── cheatsheet.md    ← quick reference
+├── sota.md          ← current debates
+└── notebooks/
+    ├── 01_model.ipynb      ← optional
+    └── 02_real_data.ipynb  ← optional</pre>
+    </div>
+  </div>
+  <p style="margin-top:10px;font-size:13px;color:var(--muted)">Notebooks are <strong>optional per domain</strong>. Economics/finance modules may use case studies or spreadsheets instead. The template stays consistent; the file types adapt.</p>
+</div>
+
+<p class="subtitle">Does this schema look right? Any fields missing or wrong for the domains you have in mind?</p>

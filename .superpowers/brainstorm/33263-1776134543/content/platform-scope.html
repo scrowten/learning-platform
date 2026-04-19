@@ -1,0 +1,74 @@
+<h2>Current State → Where Are We Taking This?</h2>
+<p class="subtitle">The repo has a solid module structure — but it's locked to DS/ML. Let's define the target scope.</p>
+
+<div class="section">
+  <h3>What's Working (Keep This)</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+    <div style="padding:12px;border:1px solid var(--border);border-radius:6px">
+      <div class="label">Module Pattern</div>
+      <p style="margin:6px 0 0">README + concepts.md + notebooks/ + cheatsheet.md + sota.md</p>
+    </div>
+    <div style="padding:12px;border:1px solid var(--border);border-radius:6px">
+      <div class="label">Philosophy</div>
+      <p style="margin:6px 0 0">Non-linear, skip-friendly, difficulty-tagged, from-scratch + real dataset</p>
+    </div>
+    <div style="padding:12px;border:1px solid var(--border);border-radius:6px">
+      <div class="label">Dependency Graph</div>
+      <p style="margin:6px 0 0">Explicit prereqs per module, multiple learning paths</p>
+    </div>
+    <div style="padding:12px;border:1px solid var(--border);border-radius:6px">
+      <div class="label">SOTA Coverage</div>
+      <p style="margin:6px 0 0">Each domain has sota.md tracking current research/industry direction</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Which domains should we expand to? <span class="label" style="margin-left:8px">select all that apply</span></h3>
+  <div class="options" data-multiselect>
+    <div class="option" data-choice="ds-ml" onclick="toggleSelect(this)">
+      <div class="letter">✓</div>
+      <div class="content">
+        <h3>Data Science / ML Engineering</h3>
+        <p>Already exists — keep and expand (MLOps, model deployment, feature engineering)</p>
+      </div>
+    </div>
+    <div class="option" data-choice="economics" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Economics — Macro &amp; Micro</h3>
+        <p>Supply/demand, market structures, GDP, monetary policy, behavioral economics</p>
+      </div>
+    </div>
+    <div class="option" data-choice="trading" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Stocks &amp; Trading</h3>
+        <p>Technical analysis, fundamental analysis, options, portfolio theory, quant strategies</p>
+      </div>
+    </div>
+    <div class="option" data-choice="software-eng" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>Software Engineering</h3>
+        <p>System design, distributed systems, algorithms, backend architecture</p>
+      </div>
+    </div>
+    <div class="option" data-choice="finance" onclick="toggleSelect(this)">
+      <div class="letter">D</div>
+      <div class="content">
+        <h3>Finance / Accounting</h3>
+        <p>Financial statements, valuation, corporate finance, risk management</p>
+      </div>
+    </div>
+    <div class="option" data-choice="other" onclick="toggleSelect(this)">
+      <div class="letter">E</div>
+      <div class="content">
+        <h3>Other / Leave Open</h3>
+        <p>Design the platform so any domain can be plugged in later without restructuring</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:24px">Select what resonates, or just tell me in the terminal. Multi-select enabled.</p>

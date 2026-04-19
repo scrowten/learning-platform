@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data (download scripts provided instead)
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.jsonl
+*.h5
+*.hdf5
+
+# Model weights (too large for git)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+
+# Logs
+*.log
+wandb/
+mlruns/
+lightning_logs/
+
+# OS
+.DS_Store
+Thumbs.db
