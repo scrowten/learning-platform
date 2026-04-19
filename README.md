@@ -1,115 +1,106 @@
-# DS/AI-ML Self-Study & Open Source Course
+# Learning Platform
 
-A modular, from-scratch learning resource for data science and machine learning — from math prerequisites to LLMs and MLOps.
+A modular, domain-agnostic learning platform. Pick any domain, pick any module, learn at your own pace.
 
 **Philosophy:**
-- Pick any module independently (no forced linear path)
-- Each module: Theory → From-scratch implementation → Real dataset challenge
-- Skip-friendly: each module has a difficulty tag and explicit skip guide
-- Research-aware: `sota.md` in each section covers current papers and directions
-- Framework-agnostic core (numpy/pandas/sklearn); optional PyTorch/TF/JAX tracks under `/frameworks/`
+- Domain-agnostic — same module structure across DS/ML, Economics, Trading, Software Engineering, Finance, and more
+- Non-linear — every module declares its prerequisites; skip freely if you already know the material
+- Each module: Theory (`concepts.md`) → Practice (`notebooks/`) → Quick Reference (`cheatsheet.md`) → Field State (`sota.md`)
+- Difficulty-tagged: `[Beginner]` `[Intermediate]` `[Advanced]` `[Research]`
 
 ---
 
-## Who is this for?
+## Domains
 
-| You are... | Start here |
-|---|---|
-| Complete beginner | `00_prerequisites` → `01_ml_fundamentals` |
-| Know classical ML, rusty on deep learning | `02_deep_learning/foundations` |
-| Know DL, want to catch up on LLMs | `03_llms_genai` |
-| Practicing engineer wanting production ML | `04_mlops` |
-| Researcher wanting framework comparisons | `/frameworks/` |
+| Domain | Path | Status |
+|---|---|---|
+| Data Science & ML Engineering | `domains/ds-ml/` | Active |
+| Economics | `domains/economics/` | Coming soon |
+| Stocks & Trading | `domains/trading/` | Coming soon |
+| Software Engineering | `domains/software-eng/` | Coming soon |
+| Finance & Accounting | `domains/finance/` | Coming soon |
+
+Full domain registry: [`domain-registry.yaml`](./domain-registry.yaml)
 
 ---
 
-## Course Map
+## DS/ML Module Map
 
 ```
-00_prerequisites/          Math, stats, Python basics     [Beginner]
-01_ml_fundamentals/        Classical ML                   [Beginner–Intermediate]
-02_deep_learning/          MLP → CNNs → Transformers      [Intermediate–Advanced]
-03_llms_genai/             LLMs, fine-tuning, RAG, agents [Advanced–Research]
-04_mlops/                  Production ML systems          [Intermediate–Advanced]
-frameworks/                PyTorch / TF / JAX tracks      [varies]
-projects/                  End-to-end capstone projects   [varies]
+domains/ds-ml/
+├── prerequisites/
+│   ├── linear-algebra/          [Beginner]
+│   ├── probability-statistics/  [Beginner]
+│   └── python-numpy-pandas/     [Beginner]
+├── ml-fundamentals/
+│   ├── supervised/              [Beginner–Intermediate]
+│   ├── unsupervised/            [Intermediate]
+│   └── ensemble-methods/        [Intermediate]
+├── deep-learning/
+│   ├── foundations/             [Intermediate]
+│   ├── cnns/                    [Intermediate]
+│   ├── rnns-lstms/              [Intermediate]
+│   └── attention-transformers/  [Advanced]
+├── llms-genai/
+│   ├── language-modeling/       [Advanced]
+│   ├── finetuning/              [Advanced]
+│   ├── rag/                     [Advanced]
+│   ├── agents/                  [Advanced]
+│   └── multimodal/              [Research]
+└── mlops/
+    ├── experiment-tracking/     [Intermediate]
+    ├── pipelines/               [Intermediate]
+    ├── serving/                 [Advanced]
+    └── monitoring/              [Advanced]
 ```
-
-See [ROADMAP.md](./ROADMAP.md) for the full dependency map with difficulty tags.
 
 ---
 
-## How to Use This Repo
+## Module Structure (Universal Template)
 
-### Option A — Linear path (recommended for beginners)
-Follow the numbered directories in order. Each module builds conceptual depth but is still self-contained.
+Every module in every domain follows this template:
 
-### Option B — Jump in anywhere
-Every module has a `README.md` with a **Prerequisites / Who can skip this** section. Read that first, then dive into `concepts.md`.
-
-### Option C — Research catch-up
-Go straight to the `sota.md` files to see what's current in each area, then work backwards into fundamentals as needed.
+```
+<module-slug>/
+├── README.md          ← YAML frontmatter (id, domain, difficulty, prerequisites…) + overview
+├── concepts.md        ← Theory, math, models, derivations
+├── cheatsheet.md      ← Quick reference card
+├── sota.md            ← Current field state / active debates
+└── notebooks/         ← Optional; quantitative domains
+    ├── 01_model.ipynb
+    └── 02_real_data.ipynb
+```
 
 ---
 
-## Module Structure
+## How to Use
 
-Every subdirectory follows this template:
+### Jump in anywhere
+Every module `README.md` has a **Prerequisites** section and **Skip Guide**. Read it first, then dive in.
 
-```
-module/
-├── README.md              # Overview, difficulty tag, skip guide, prerequisites
-├── concepts.md            # Theory — math, intuition, derivations
-├── notebooks/
-│   ├── 01_from_scratch.ipynb    # Implement the algorithm from scratch
-│   └── 02_real_dataset.ipynb   # Apply to a real/kaggle/HuggingFace dataset
-└── cheatsheet.md          # Quick reference card
-```
+### Linear path (DS/ML — beginner to practitioner)
+`prerequisites/` → `ml-fundamentals/` → `deep-learning/foundations` → `deep-learning/attention-transformers` → `llms-genai/language-modeling` → `mlops/serving`
 
-**Difficulty tags:** `[Beginner]` `[Intermediate]` `[Advanced]` `[Research]`
+### Research catch-up
+Read all `sota.md` files → identify gaps → fill in with `concepts.md` + notebooks as needed.
 
 ---
 
-## Setup
+## Validating Content
 
 ```bash
-# Clone
-git clone <repo-url>
-cd self_repo
-
-# Create environment
-python -m venv .venv
-source .venv/bin/activate
-
-# Install core deps
-pip install numpy pandas matplotlib scikit-learn jupyter ipykernel
-
-# Optional: framework tracks
-pip install torch torchvision          # PyTorch
-pip install tensorflow                 # TensorFlow
-pip install jax jaxlib flax optax      # JAX
+python scripts/validate_content.py
 ```
 
----
-
-## Validating Notebooks
-
-Each notebook should run clean:
-
-```bash
-jupyter nbconvert --to notebook --execute notebooks/01_from_scratch.ipynb
-```
+Checks domain-registry.yaml, all module frontmatter, and prerequisite graph integrity.
 
 ---
 
-## Contributing
+## Adding a New Domain
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) *(coming in Phase 3)*.
+1. Add an entry to `domain-registry.yaml`
+2. Create `domains/<domain-id>/README.md`
+3. Add modules following the universal template
+4. Run `python scripts/validate_content.py`
 
----
-
-## Roadmap
-
-- **Phase 1 (current):** Bootstrap — structure + first complete module
-- **Phase 2:** Fill out all core modules
-- **Phase 3:** Framework tracks, open source polish, CI, rendered docs site
+No changes needed anywhere else.

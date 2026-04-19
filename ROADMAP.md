@@ -1,131 +1,63 @@
-# Course Roadmap
+# Roadmap
 
 Module dependency map with difficulty tags and estimated time.
 
 ---
 
-## Difficulty Scale
-
-| Tag | Description |
-|---|---|
-| `[Beginner]` | No prior ML knowledge needed; high school math |
-| `[Intermediate]` | Comfortable with Python, basic calculus/linear algebra |
-| `[Advanced]` | Familiar with classical ML and neural networks |
-| `[Research]` | Active research area; assumes strong fundamentals |
-
----
-
-## Module Map
-
-```
-                        ┌─────────────────────┐
-                        │   00_prerequisites   │  [Beginner]
-                        │  Math · Stats · Py   │
-                        └──────────┬──────────┘
-                                   │  (skippable if you know the basics)
-                        ┌──────────▼──────────┐
-                        │  01_ml_fundamentals  │  [Beginner–Intermediate]
-                        │  Regression · Trees  │
-                        │  Clustering · PCA    │
-                        └──────────┬──────────┘
-                                   │
-                   ┌───────────────┼───────────────┐
-                   │               │               │
-        ┌──────────▼──────┐        │      ┌────────▼───────┐
-        │ 02_deep_learning │        │      │   04_mlops     │
-        │ [Intermediate–  │        │      │ [Intermediate– │
-        │   Advanced]     │        │      │   Advanced]    │
-        └──────────┬──────┘        │      └────────────────┘
-                   │               │
-        ┌──────────▼──────┐        │
-        │  03_llms_genai  │        │
-        │  [Advanced–     │        │
-        │   Research]     │        │
-        └─────────────────┘        │
-                                   │
-                        ┌──────────▼──────────┐
-                        │     frameworks/      │
-                        │  PyTorch · TF · JAX  │
-                        └─────────────────────┘
-```
-
----
-
 ## Module Index
 
-### 00 — Prerequisites `[Beginner]`
+### Prerequisites `[Beginner]`
 
-| Module | Topics | Skip if... |
+| Module | Path | Skip if... |
 |---|---|---|
-| `linear_algebra/` | Vectors, matrices, eigenvalues, SVD | Comfortable with matrix ops |
-| `probability_statistics/` | Probability, distributions, MLE, Bayes | Know probability theory |
-| `python_numpy_pandas/` | Python, numpy broadcasting, pandas | You use these daily |
+| Linear Algebra | `domains/ds-ml/prerequisites/linear-algebra/` | Comfortable with matrix ops |
+| Probability & Statistics | `domains/ds-ml/prerequisites/probability-statistics/` | Know probability theory |
+| Python, NumPy & Pandas | `domains/ds-ml/prerequisites/python-numpy-pandas/` | You use these daily |
 
-### 01 — ML Fundamentals `[Beginner–Intermediate]`
+### ML Fundamentals `[Beginner–Intermediate]`
 
-| Module | Topics | Skip if... |
+| Module | Path | Skip if... |
 |---|---|---|
-| `supervised/` | Linear/logistic regression, SVMs, decision trees, k-NN | You've trained classifiers before |
-| `unsupervised/` | k-means, DBSCAN, PCA, anomaly detection | Familiar with dimensionality reduction |
-| `ensemble_methods/` | Bagging, random forests, boosting (XGBoost/LightGBM), stacking | You know ensemble methods |
+| Supervised Learning | `domains/ds-ml/ml-fundamentals/supervised/` | You've trained classifiers before |
+| Unsupervised Learning | `domains/ds-ml/ml-fundamentals/unsupervised/` | Familiar with dimensionality reduction |
+| Ensemble Methods | `domains/ds-ml/ml-fundamentals/ensemble-methods/` | You know ensemble methods |
 
-### 02 — Deep Learning `[Intermediate–Advanced]`
+### Deep Learning `[Intermediate–Advanced]`
 
-| Module | Topics | Skip if... |
+| Module | Path | Skip if... |
 |---|---|---|
-| `foundations/` | MLP, backprop, optimizers, regularization from scratch | You can derive backprop |
-| `cnns/` | Conv layers, pooling, ResNet, image classification | You know ConvNets well |
-| `rnns_lstms/` | RNN, LSTM, GRU, sequence modeling | You know recurrent models |
-| `attention_transformers/` | Attention, self-attention, Transformer, BERT, ViT | You understand Transformer architecture |
+| MLP & Backpropagation | `domains/ds-ml/deep-learning/foundations/` | You can derive backprop |
+| CNNs | `domains/ds-ml/deep-learning/cnns/` | You know ConvNets well |
+| RNNs & LSTMs | `domains/ds-ml/deep-learning/rnns-lstms/` | You know recurrent models |
+| Attention & Transformers | `domains/ds-ml/deep-learning/attention-transformers/` | You understand Transformer architecture |
 
-### 03 — LLMs & Generative AI `[Advanced–Research]`
+### LLMs & Generative AI `[Advanced–Research]`
 
-| Module | Topics | Skip if... |
+| Module | Path | Skip if... |
 |---|---|---|
-| `language_modeling/` | Pretraining, tokenization (BPE), scaling laws, next-token prediction | You know how LLMs are pretrained |
-| `finetuning/` | SFT, RLHF, PPO, DPO, LoRA, QLoRA | You've fine-tuned a model |
-| `rag/` | Vector DBs, embeddings, retrieval strategies, chunking | You've built a RAG pipeline |
-| `agents/` | Tool use, function calling, ReAct, multi-agent systems | You've built agents |
-| `multimodal/` | Vision-language (CLIP, LLaVA), audio, diffusion models | Familiar with multimodal models |
+| Language Modeling | `domains/ds-ml/llms-genai/language-modeling/` | You know how LLMs are pretrained |
+| LLM Fine-Tuning | `domains/ds-ml/llms-genai/finetuning/` | You've fine-tuned a model |
+| RAG | `domains/ds-ml/llms-genai/rag/` | You've built a RAG pipeline |
+| AI Agents | `domains/ds-ml/llms-genai/agents/` | You've built agents |
+| Multimodal | `domains/ds-ml/llms-genai/multimodal/` | Familiar with multimodal models |
 
-### 04 — MLOps `[Intermediate–Advanced]`
+### MLOps `[Intermediate–Advanced]`
 
-| Module | Topics | Skip if... |
+| Module | Path | Skip if... |
 |---|---|---|
-| `experiment_tracking/` | MLflow, W&B, experiment reproducibility | You track experiments already |
-| `pipelines/` | Data pipelines, feature stores, Airflow/Prefect patterns | You build ML pipelines |
-| `serving/` | Model APIs, FastAPI, TorchServe, latency/throughput | You've deployed models |
-| `monitoring/` | Data drift, model decay, alerting, retraining triggers | You monitor models in prod |
-
-### Framework Tracks `[varies]`
-
-| Track | Notes |
-|---|---|
-| `frameworks/pytorch/` | PyTorch equivalents of core notebooks |
-| `frameworks/tensorflow/` | TF/Keras equivalents |
-| `frameworks/jax/` | JAX/Flax for research-style code |
-
-### Capstone Projects `[varies]`
-
-| Project | Description | Prereqs |
-|---|---|---|
-| `classification_pipeline/` | End-to-end classical ML pipeline | 01_ml_fundamentals |
-| `llm_from_scratch/` | Train a small GPT from scratch | 02_deep_learning + 03_llms_genai/language_modeling |
-| `rag_system/` | Production RAG with evaluation | 03_llms_genai/rag |
-| `mlops_full_stack/` | Full MLOps stack for a real problem | 04_mlops |
+| Experiment Tracking | `domains/ds-ml/mlops/experiment-tracking/` | You track experiments already |
+| ML Pipelines | `domains/ds-ml/mlops/pipelines/` | You build ML pipelines |
+| Model Serving | `domains/ds-ml/mlops/serving/` | You've deployed models |
+| ML Monitoring | `domains/ds-ml/mlops/monitoring/` | You monitor models in prod |
 
 ---
 
-## Suggested Learning Paths
+## Phase 2: Platform API
 
-### Path A — Complete Beginner to Practitioner
-`00` → `01` → `02/foundations` → `02/cnns` → `02/attention_transformers` → `03/language_modeling` → `04/serving`
+Once content migration is complete, Phase 2 builds `learning-platform-api`:
+- PostgreSQL schema (domains, modules, prerequisites, progress, embeddings)
+- Sync worker: reads `domain-registry.yaml` + frontmatter → upserts to DB
+- FastAPI: content endpoints + AI features (Concept Q&A, Auto Quizzes, SOTA Alerts)
+- Docker Compose for local dev / self-hosted deployment
 
-### Path B — ML Engineer catching up on LLMs
-`02/attention_transformers` (refresh) → `03/language_modeling` → `03/finetuning` → `03/rag` → `03/agents`
-
-### Path C — Research catch-up sprint
-Read all `sota.md` files → identify gaps → fill in with `concepts.md` + notebooks as needed
-
-### Path D — Production focus
-`01` (light) → `04/pipelines` → `04/serving` → `04/monitoring` → `projects/mlops_full_stack`
+See spec: `docs/superpowers/specs/2026-04-14-learning-platform-agnostic-design.md`
