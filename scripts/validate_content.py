@@ -34,7 +34,7 @@ def err(msg: str) -> None:
 
 def extract_frontmatter(path: Path) -> dict | None:
     """Extract YAML frontmatter from a markdown file."""
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     match = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
     if not match:
         return None
@@ -53,7 +53,7 @@ def validate_registry() -> list[str]:
         return []
 
     try:
-        data = yaml.safe_load(REGISTRY_PATH.read_text())
+        data = yaml.safe_load(REGISTRY_PATH.read_text(encoding="utf-8"))
     except yaml.YAMLError as e:
         err(f"domain-registry.yaml: invalid YAML — {e}")
         return []
@@ -78,14 +78,15 @@ def validate_registry() -> list[str]:
     return domain_ids
 
 
-def validate_modules(valid_domain_ids: list[str]) -> list[str]:
-    """Validates all module READMEs. Returns list of valid module IDs."""
+def validate_modules(valid_domain_ids: list[str]) -> tuple[list[str], list[dict]]:
+    """Validates all module READMEs. Returns tuple of (module_ids, frontmatters)."""
     print("\n[2] Validating module frontmatter")
     if not DOMAINS_DIR.exists():
         err(f"domains/ directory not found at {DOMAINS_DIR}")
-        return []
+        return [], []
 
     module_ids = []
+    frontmatters = []
     readmes = sorted(DOMAINS_DIR.rglob("README.md"))
 
     # Skip domain-level READMEs (direct children of domains/)
@@ -96,7 +97,7 @@ def validate_modules(valid_domain_ids: list[str]) -> list[str]:
 
     if not module_readmes:
         err("No module README.md files found under domains/")
-        return []
+        return [], []
 
     for readme in module_readmes:
         fm = extract_frontmatter(readme)
@@ -114,35 +115,33 @@ def validate_modules(valid_domain_ids: list[str]) -> list[str]:
                 f"{readme.relative_to(REPO_ROOT)}: invalid difficulty "
                 f"'{fm['difficulty']}' — must be one of {VALID_DIFFICULTIES}"
             )
+            continue
 
         if fm["domain"] not in valid_domain_ids:
             err(
                 f"{readme.relative_to(REPO_ROOT)}: domain '{fm['domain']}' "
                 f"not in domain-registry.yaml"
             )
+            continue
 
         print(f"  OK: {fm['id']} ({fm['domain']})")
         module_ids.append(fm["id"])
+        frontmatters.append(fm)
 
-    return module_ids
+    return module_ids, frontmatters
 
 
-def validate_prerequisites(module_ids: list[str]) -> None:
+def validate_prerequisites(module_ids: list[str], frontmatters: list[dict]) -> None:
     """Checks all prerequisite IDs reference valid module IDs."""
     print("\n[3] Validating prerequisite references")
     id_set = set(module_ids)
 
-    for readme in sorted(DOMAINS_DIR.rglob("README.md")):
-        if readme.parent.parent == DOMAINS_DIR:
-            continue
-        fm = extract_frontmatter(readme)
-        if not fm or "prerequisites" not in fm:
-            continue
+    for fm in frontmatters:
         prereqs = fm.get("prerequisites") or []
         for prereq in prereqs:
             if prereq not in id_set:
                 err(
-                    f"{readme.relative_to(REPO_ROOT)}: "
+                    f"module '{fm['id']}': "
                     f"prerequisite '{prereq}' not found in any module"
                 )
 
@@ -156,8 +155,8 @@ def main() -> None:
     print("=" * 60)
 
     valid_domain_ids = validate_registry()
-    module_ids = validate_modules(valid_domain_ids)
-    validate_prerequisites(module_ids)
+    module_ids, frontmatters = validate_modules(valid_domain_ids)
+    validate_prerequisites(module_ids, frontmatters)
 
     print("\n" + "=" * 60)
     if errors:
