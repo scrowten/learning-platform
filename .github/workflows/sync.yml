@@ -1,0 +1,17 @@
+name: Sync to Platform API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "domain-registry.yaml"
+      - "domains/**"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger sync
+        run: |
+          curl -f -X POST "${{ secrets.PLATFORM_API_URL }}/sync/trigger" \
+            -H "x-sync-secret: ${{ secrets.PLATFORM_SYNC_SECRET }}"
