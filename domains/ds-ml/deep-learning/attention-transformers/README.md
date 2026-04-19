@@ -1,3 +1,20 @@
+---
+id: attention-transformers
+domain: ds-ml
+title: "Attention & Transformers"
+difficulty: advanced
+tags: [attention, transformer, bert, gpt, vit, self-attention, multi-head-attention]
+prerequisites:
+  - dl-foundations
+  - rnns-lstms
+estimated_hours: 10
+last_reviewed: 2026-04-14
+sota_topics:
+  - Flash Attention 2 and 3
+  - Mixture of Experts (MoE) architectures
+  - Efficient attention variants (linear, sparse)
+---
+
 # Attention & Transformers `[Advanced]`
 
 ## Overview

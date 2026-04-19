@@ -1,3 +1,21 @@
+---
+id: dl-foundations
+domain: ds-ml
+title: "MLP & Backpropagation"
+difficulty: intermediate
+tags: [neural-networks, backpropagation, mlp, optimization, numpy, regularization]
+prerequisites:
+  - linear-algebra
+  - probability-statistics
+  - python-numpy-pandas
+estimated_hours: 10
+last_reviewed: 2026-04-14
+sota_topics:
+  - AdamW and Lion optimizers
+  - Batch norm vs layer norm tradeoffs
+  - Weight initialization for deep networks
+---
+
 # MLP & Backpropagation `[Intermediate]`
 
 ## Overview
