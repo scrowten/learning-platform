@@ -1,0 +1,35 @@
+domains:
+  - id: ds-ml
+    name: "Data Science & ML Engineering"
+    path: domains/ds-ml
+    color: "#3b82f6"
+    icon: "🧠"
+    tags: [quantitative, programming, math]
+
+  - id: economics
+    name: "Economics"
+    path: domains/economics
+    color: "#10b981"
+    icon: "📈"
+    tags: [theory, policy, markets]
+
+  - id: trading
+    name: "Stocks & Trading"
+    path: domains/trading
+    color: "#f59e0b"
+    icon: "📊"
+    tags: [quantitative, markets, finance]
+
+  - id: software-eng
+    name: "Software Engineering"
+    path: domains/software-eng
+    color: "#8b5cf6"
+    icon: "⚙️"
+    tags: [programming, systems, architecture]
+
+  - id: finance
+    name: "Finance & Accounting"
+    path: domains/finance
+    color: "#ef4444"
+    icon: "💰"
+    tags: [theory, markets, valuation]
